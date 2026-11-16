@@ -292,7 +292,7 @@ private fun InspectScreen(
     if (ui.lastHeard.isNotBlank()) Bubble("🎙️", ui.lastHeard, fromApp = false)
 
     // ---------- the ticket factory (or move-in saving)
-    AnimatedVisibility(visible = ui.stage >= 0 || ui.error != null, enter = fadeIn() + expandVertically(), exit = fadeOut() + shrinkVertically()) {
+    if (ui.stage >= 0 || ui.error != null) {
       Factory(ui, moveIn)
     }
 
@@ -556,7 +556,7 @@ private fun TicketStub(issue: Issue, room: String, unit: String, number: Long?, 
     shown = true
   }
   val pc = priorityColor(issue.priority)
-  AnimatedVisibility(visible = shown, enter = fadeIn(tween(400)) + expandVertically(tween(400))) {
+  if (shown) {
     Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(20.dp)).background(Paper).border(2.dp, pc.copy(alpha = 0.5f), RoundedCornerShape(20.dp))) {
       Row(Modifier.fillMaxWidth().background(pc).padding(horizontal = 16.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
         Text("${priorityEmoji(issue.priority)} ${issue.priority.uppercase()} PRIORITY", color = Color.White, fontWeight = FontWeight.Black, fontSize = 13.sp, letterSpacing = 1.sp, modifier = Modifier.weight(1f))
